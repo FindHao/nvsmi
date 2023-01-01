@@ -92,7 +92,8 @@ int main(void)
         nvmlDeviceGetUtilizationRates(device, &utilization);
         gpuinfor->utilization.gpu = utilization.gpu;
         gpuinfor->utilization.memory = utilization.memory;
-
+        // get SM version
+        nvmlDeviceGetCudaComputeCapability(device, &gpuinfor->sm_version.major, &gpuinfor->sm_version.minor);
         for (unsigned int i = 0; i < info_count; i++)
         {
             // change usedGPUmemory to MB

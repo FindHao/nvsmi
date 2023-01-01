@@ -16,6 +16,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/include/
     ${CMAKE_CURRENT_LIST_DIR}/src/
 )
+add_compile_options(-fstack-usage)
 
 # include all source files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
@@ -24,7 +25,7 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(nvsmi ${SOURCES})
 
 # Link with NVML library
-target_link_libraries(nvsmi PRIVATE ${NVML_LIBRARY})
+target_link_libraries(nvsmi PRIVATE ${NVML_LIBRARY}  -fstack-usage)
 
 # Set include directories
 target_include_directories(nvsmi PRIVATE

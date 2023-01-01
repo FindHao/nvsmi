@@ -29,6 +29,13 @@ public:
 
 // typedef unique_ptr<GPUProcess> GPUProcessPtr;
 
+struct SMVersion
+{
+    int major;
+    int minor;
+};
+
+
 class GPUInfor
 {
 public:
@@ -46,6 +53,7 @@ public:
     int power_usage;
     int power_limit;
     nvmlUtilization_t utilization;
+    SMVersion sm_version;
     vector<GPUProcess *> gpu_processes;
     GPUInfor();
     GPUInfor(int id, string UUID);
