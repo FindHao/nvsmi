@@ -55,8 +55,8 @@ void print_like_nvidia_smi(GPUInforPtrVector &gpuinfors)
                << "|" << endl;
      }
 
-     cout << line << endl
-          << endl;
+     cout << line << endl <<endl;
+     cout << line << endl;
      cout << "|" << setw(TABLE_WIDTH - 2) << left << "Processes:"
           << "|" << endl;
      cout << "|" << setw(COLUMN_1_WIDTH) << left << "GPU"
