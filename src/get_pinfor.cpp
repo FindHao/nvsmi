@@ -38,12 +38,16 @@ string get_arch_name(nvmlDeviceArchitecture_t product_arch)
     case NVML_DEVICE_ARCH_AMPERE:
         product_arch_str = "Ampere";
         break;
+#ifdef NVML_DEVICE_ARCH_ADA
     case NVML_DEVICE_ARCH_ADA:
         product_arch_str = "Ada";
         break;
+#endif
+#ifdef NVML_DEVICE_ARCH_HOPPER
     case NVML_DEVICE_ARCH_HOPPER:
         product_arch_str = "Hopper";
         break;
+#endif
     default:
         product_arch_str = "Unknown";
         break;
