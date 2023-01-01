@@ -11,6 +11,10 @@ endif()
 
 # Find NVML library
 find_library(NVML_LIBRARY NAMES nvidia-ml)
+# Find cuda toolkit
+find_package(CUDA REQUIRED)
+# add cuda toolkit include directories
+include_directories(${CUDA_INCLUDE_DIRS})
 
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/include/
