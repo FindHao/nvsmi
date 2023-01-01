@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.10)
 project(nvsmi)
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
-            "Default build type: Debug" FORCE)
+    set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING
+            "Default build type: RelWithDebInfo" FORCE)
 endif()
 
 
@@ -20,6 +20,8 @@ add_compile_options(-fstack-usage)
 
 # include all source files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+# set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++ -Wl,-Bstatic -lc -Wl,-Bdynamic -lnvidia-ml")
 
 # Add executable target
 add_executable(nvsmi ${SOURCES})

@@ -28,7 +28,6 @@ int main(void)
     unsigned int device_count;
     NVML_ERROR_CHECK(nvmlDeviceGetCount(&device_count));
     gpuinfors = new GPUInforPtrVector();
-    char tmp[1024];
     // Iterate through each GPU device
     for (unsigned int i = 0; i < device_count; i++)
     {
@@ -36,9 +35,9 @@ int main(void)
         nvmlDevice_t device;
         NVML_ERROR_CHECK(nvmlDeviceGetHandleByIndex(i, &device));
         // Get the name of the GPU
-        // char name[NVML_DEVICE_NAME_BUFFER_SIZE];
-        NVML_ERROR_CHECK(nvmlDeviceGetName(device, tmp, NVML_DEVICE_NAME_BUFFER_SIZE));
-        printf("GPU %d: %s\n", i, tmp);
+        char name[NVML_DEVICE_NAME_BUFFER_SIZE];
+        NVML_ERROR_CHECK(nvmlDeviceGetName(device, name, NVML_DEVICE_NAME_BUFFER_SIZE));
+        printf("GPU %d: %s\n", i, name);
         // Get the list of graphics processes running on the GPU
         nvmlProcessInfo_t infos[64];
         unsigned int info_count;
@@ -48,13 +47,13 @@ int main(void)
         NVML_ERROR_CHECK(nvmlDeviceGetUUID(device, uuid, NVML_DEVICE_UUID_BUFFER_SIZE));
         GPUInfor *gpuinfor = new GPUInfor(i, string(uuid));
         // get driver version
-        // char driver_version[NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE];
-        NVML_ERROR_CHECK(nvmlSystemGetDriverVersion(tmp, NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE));
-        gpuinfor->driver_version = string(tmp);
+        char driver_version[NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE];
+        NVML_ERROR_CHECK(nvmlSystemGetDriverVersion(driver_version, NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE));
+        gpuinfor->driver_version = string(driver_version);
         // get product name
-        // char product_name[NVML_DEVICE_NAME_BUFFER_SIZE];
-        nvmlDeviceGetName(device, tmp, NVML_DEVICE_NAME_BUFFER_SIZE);
-        gpuinfor->product_name = string(tmp);
+        char product_name[NVML_DEVICE_NAME_BUFFER_SIZE];
+        nvmlDeviceGetName(device, product_name, NVML_DEVICE_NAME_BUFFER_SIZE);
+        gpuinfor->product_name = string(product_name);
         // get product brand
         nvmlBrandType_t product_brand;
         NVML_ERROR_CHECK(nvmlDeviceGetBrand(device, &product_brand));
