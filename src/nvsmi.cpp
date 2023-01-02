@@ -97,8 +97,9 @@ int main(void)
         nvmlEnableState_t power_management_mode;
         NVML_ERROR_CHECK(nvmlDeviceGetPowerManagementMode(device, &power_management_mode));
         // get memory usage
-        nvmlMemory_t memory;
-        nvmlDeviceGetMemoryInfo(device, &memory);
+        nvmlMemory_v2_t memory;
+        memory.version = nvmlMemory_v2;
+        nvmlDeviceGetMemoryInfo_v2(device, &memory);
         gpuinfor->memory_total = memory.total /  1024 / 1024;
         gpuinfor->memory_used = memory.used / 1024 / 1024;
         // print memory usage. debug only
