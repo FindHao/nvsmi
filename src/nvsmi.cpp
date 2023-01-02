@@ -48,8 +48,10 @@ int main(void)
         NVML_ERROR_CHECK(nvmlDeviceGetName(device, name, NVML_DEVICE_NAME_BUFFER_SIZE));
         printf("GPU %d: %s\n", i, name);
         // Get the list of graphics processes running on the GPU
-        nvmlProcessInfo_t infos[64];
         unsigned int info_count;
+        nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, NULL);
+
+        nvmlProcessInfo_t *infos = new nvmlProcessInfo_t[info_count];
         NVML_ERROR_CHECK(nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, infos));
         // Get the UUID of the GPU
         char uuid[NVML_DEVICE_UUID_BUFFER_SIZE];
@@ -91,14 +93,13 @@ int main(void)
         nvmlEnableState_t power_management_mode;
         NVML_ERROR_CHECK(nvmlDeviceGetPowerManagementMode(device, &power_management_mode));
         // get memory usage
-        nvmlMemory_v2_t memory;
-        nvmlDeviceGetMemoryInfo_v2(device, &memory);
+        nvmlMemory_t memory;
+        nvmlDeviceGetMemoryInfo(device, &memory);
         gpuinfor->memory_total = memory.total /  1024 / 1024;
         gpuinfor->memory_used = memory.used / 1024 / 1024;
-        // print memory usage
-        printf("GPU Memory Total: %d MB\n", gpuinfor->memory_total);
-        printf("GPU Memory Used: %d MB\n", gpuinfor->memory_used);
-
+        // print memory usage. debug only
+        // printf("GPU Memory Total: %d MB\n", gpuinfor->memory_total);
+        // printf("GPU Memory Used: %d MB\n", gpuinfor->memory_used);
         // get utilization
         nvmlUtilization_t utilization;
         NVML_ERROR_CHECK(nvmlDeviceGetUtilizationRates(device, &utilization));
