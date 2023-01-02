@@ -95,6 +95,10 @@ int main(void)
         nvmlDeviceGetMemoryInfo_v2(device, &memory);
         gpuinfor->memory_total = memory.total /  1024 / 1024;
         gpuinfor->memory_used = memory.used / 1024 / 1024;
+        // print memory usage
+        printf("GPU Memory Total: %d MB\n", gpuinfor->memory_total);
+        printf("GPU Memory Used: %d MB\n", gpuinfor->memory_used);
+
         // get utilization
         nvmlUtilization_t utilization;
         NVML_ERROR_CHECK(nvmlDeviceGetUtilizationRates(device, &utilization));
