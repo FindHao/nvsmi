@@ -50,9 +50,13 @@ int main(void)
         // Get the list of graphics processes running on the GPU
         unsigned int info_count;
         nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, NULL);
-
-        nvmlProcessInfo_t *infos = new nvmlProcessInfo_t[info_count];
-        NVML_ERROR_CHECK(nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, infos));
+        nvmlProcessInfo_t *graphic_infos = new nvmlProcessInfo_t[info_count];
+        NVML_ERROR_CHECK(nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, graphic_infos));
+        // get the list of compute processes running on the GPU
+        unsigned int compute_info_count;
+        nvmlDeviceGetComputeRunningProcesses(device, &compute_info_count, NULL);
+        nvmlProcessInfo_t *compute_infos = new nvmlProcessInfo_t[compute_info_count];
+        NVML_ERROR_CHECK(nvmlDeviceGetComputeRunningProcesses(device, &compute_info_count, compute_infos));
         // Get the UUID of the GPU
         char uuid[NVML_DEVICE_UUID_BUFFER_SIZE];
         NVML_ERROR_CHECK(nvmlDeviceGetUUID(device, uuid, NVML_DEVICE_UUID_BUFFER_SIZE));
@@ -110,8 +114,17 @@ int main(void)
         for (unsigned int i = 0; i < info_count; i++)
         {
             // change usedGPUmemory to MB
-            infos[i].usedGpuMemory = infos[i].usedGpuMemory / 1024 / 1024;
-            GPUProcess *gpuprocess = new GPUProcess(infos[i].pid, 'G', infos[i].usedGpuMemory, string(uuid));
+            graphic_infos[i].usedGpuMemory = graphic_infos[i].usedGpuMemory / 1024 / 1024;
+            GPUProcess *gpuprocess = new GPUProcess(graphic_infos[i].pid, 'G', graphic_infos[i].usedGpuMemory, string(uuid));
+            get_pinfor(*gpuprocess);
+            // gpuinfors[i].gpu_processes.push_back(gpuprocess);
+            gpuinfor->gpu_processes.push_back(gpuprocess);
+        }
+        for (unsigned int i = 0; i < compute_info_count; i++)
+        {
+            // change usedGPUmemory to MB
+            compute_infos[i].usedGpuMemory = compute_infos[i].usedGpuMemory / 1024 / 1024;
+            GPUProcess *gpuprocess = new GPUProcess(compute_infos[i].pid, 'C', compute_infos[i].usedGpuMemory, string(uuid));
             get_pinfor(*gpuprocess);
             // gpuinfors[i].gpu_processes.push_back(gpuprocess);
             gpuinfor->gpu_processes.push_back(gpuprocess);
