@@ -46,7 +46,7 @@ int main(void)
         // Get the name of the GPU
         char name[NVML_DEVICE_NAME_BUFFER_SIZE];
         NVML_ERROR_CHECK(nvmlDeviceGetName(device, name, NVML_DEVICE_NAME_BUFFER_SIZE));
-        printf("GPU %d: %s\n", i, name);
+        // printf("GPU %d: %s\n", i, name);
         // Get the list of graphics processes running on the GPU
         unsigned int info_count;
         nvmlDeviceGetGraphicsRunningProcesses(device, &info_count, NULL);
