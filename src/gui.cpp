@@ -21,9 +21,15 @@ void print_like_nvidia_smi(GPUInforPtrVector &gpuinfors)
      const int COLUMN_4_WIDTH = 40;
      const int COLUMN_5_WIDTH = 20;
      cout << line << endl;
+     int major_version = gpuinfors[0]->cuda_version / 1000;
+     int minor_version = gpuinfors[0]->cuda_version % 1000;
+     string cuda_version = to_string(major_version) + "." + to_string(minor_version);
      cout << "|" << setw(COLUMN_5_WIDTH) << left << "Driver Version: "
-          << setw(TABLE_WIDTH - COLUMN_5_WIDTH - 2) << left << gpuinfors[0]->driver_version
+          << setw(COLUMN_5_WIDTH) << left << gpuinfors[0]->driver_version
+          << setw(COLUMN_5_WIDTH) << left << "CUDA Version: "
+          << setw(TABLE_WIDTH - COLUMN_5_WIDTH * 3 - 2) << left << cuda_version
           << "|" << endl;
+          
      cout << line << endl;
      cout << "|" << setw(COLUMN_1_WIDTH) << left << "GPU"
           << setw(COLUMN_4_WIDTH) << left << "Name"

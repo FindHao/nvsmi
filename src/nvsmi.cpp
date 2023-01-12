@@ -4,7 +4,7 @@
 #include "gui.h"
 #include "get_pinfor.h"
 #include <memory>
-
+#include <cuda_runtime.h>
 using std::make_unique;
 
 GPUInforPtrVector *gpuinfors;
@@ -28,6 +28,26 @@ GPUInforPtrVector *gpuinfors;
         }                                                                        \
     }
 #endif // NVML_ERROR_CHECK
+
+#ifndef CUDA_ERROR_CHECK
+#define CUDA_ERROR_CHECK(call)                                                   \
+    {                                                                            \
+        auto status = static_cast<cudaError_t>(call);                            \
+        if (status != cudaSuccess)                                               \
+        {                                                                        \
+            fprintf(stderr,                                                      \
+                    "ERROR: CUDA call \"%s\" in line %d of file %s failed "      \
+                    "with "                                                      \
+                    "%s (%d).\n",                                                \
+                    #call,                                                       \
+                    __LINE__,                                                    \
+                    __FILE__,                                                    \
+                    cudaGetErrorString(status),                                  \
+                    status);                                                     \
+            exit(1);                                                             \
+        }                                                                        \
+    }
+#endif // CUDA_ERROR_CHECK
 
 
 int main(void)
@@ -65,6 +85,10 @@ int main(void)
         char driver_version[NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE];
         NVML_ERROR_CHECK(nvmlSystemGetDriverVersion(driver_version, NVML_SYSTEM_DRIVER_VERSION_BUFFER_SIZE));
         gpuinfor->driver_version = string(driver_version);
+        // get cuda version
+        int cuda_version;
+        CUDA_ERROR_CHECK(cudaDriverGetVersion(&cuda_version));
+        gpuinfor->cuda_version = cuda_version;
         // get product name
         char product_name[NVML_DEVICE_NAME_BUFFER_SIZE];
         nvmlDeviceGetName(device, product_name, NVML_DEVICE_NAME_BUFFER_SIZE);

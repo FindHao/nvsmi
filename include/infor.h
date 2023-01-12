@@ -46,6 +46,7 @@ public:
     string product_arch;
     string bus_id;
     string driver_version;
+    int cuda_version;
     int memory_total;
     int memory_used;
     int temperature;

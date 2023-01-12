@@ -31,8 +31,8 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(nvsmi ${SOURCES})
 
 # Link with NVML library
-target_link_libraries(nvsmi PRIVATE ${NVML_LIBRARY}  -fstack-usage)
+target_link_libraries(nvsmi PRIVATE ${NVML_LIBRARY} ${CUDA_LIBRARIES} -fstack-usage)
 
 # Set include directories
 target_include_directories(nvsmi PRIVATE
-    /usr/local/cuda/include)
+    ${CUDA_INCLUDE_DIRS})
