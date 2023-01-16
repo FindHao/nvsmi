@@ -103,7 +103,12 @@ int main(void)
         gpuinfor->product_arch = get_arch_name(product_arch);
         // get fan speed
         unsigned int fan_speed;
-        NVML_ERROR_CHECK(nvmlDeviceGetFanSpeed(device, &fan_speed));
+        auto status = static_cast<nvmlReturn_t>(nvmlDeviceGetFanSpeed(device, &fan_speed));
+        if (status != NVML_SUCCESS)
+        {
+            fprintf(stdout, "Warning: FAN Speed %s\n", nvmlErrorString(status));
+            fan_speed = 10000;
+        }
         gpuinfor->fan_speed = fan_speed;
         // get temperature
         unsigned int temperature;
