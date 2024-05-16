@@ -106,8 +106,8 @@ int main(void)
         auto status = static_cast<nvmlReturn_t>(nvmlDeviceGetFanSpeed(device, &fan_speed));
         if (status != NVML_SUCCESS)
         {
-            fprintf(stdout, "Warning: FAN Speed %s\n", nvmlErrorString(status));
-            fan_speed = 10000;
+            //fprintf(stdout, "Warning: FAN Speed %s\n", nvmlErrorString(status));
+            fan_speed = -1;
         }
         gpuinfor->fan_speed = fan_speed;
         // get temperature

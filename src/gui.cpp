@@ -52,7 +52,7 @@ void print_like_nvidia_smi(GPUInforPtrVector &gpuinfors)
                << setw(COLUMN_4_WIDTH) << left << gpuinfor->product_name
                << setw(TABLE_WIDTH - COLUMN_1_WIDTH - COLUMN_4_WIDTH - 2) << left << " "
                << "|" << endl;
-          string fan_speed = gpuinfor->fan_speed == 10000 ? "N/A" : to_string(gpuinfor->fan_speed) + "%";
+          string fan_speed = gpuinfor->fan_speed == -1 ? "N/A" : to_string(gpuinfor->fan_speed) + "%";
           cout << "|" << setw(COLUMN_1_WIDTH) << left << fan_speed
                << setw(COLUMN_1_WIDTH) << left << to_string(gpuinfor->temperature) + "C"
                << setw(COLUMN_5_WIDTH) << left << to_string(gpuinfor->power_usage) + "W/" + to_string(gpuinfor->power_limit) + "W"
